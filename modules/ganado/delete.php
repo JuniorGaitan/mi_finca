@@ -1,9 +1,13 @@
 <?php
-require '../../config/database.php';
+session_start();
+require_once '../../config/database.php';
+require_once '../../app/models/Ganado.php';
 
-$id = $_GET['id'];
-$stmt = $pdo->prepare("DELETE FROM ganado WHERE id_ganado = ?");
-$stmt->execute([$id]);
+if (isset($_GET['id'])) {
+    $ganado = new Ganado($pdo);
+    $ganado->eliminar($_GET['id']);
+}
 
 header("Location: index.php");
 exit;
+

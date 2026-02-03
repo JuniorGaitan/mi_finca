@@ -1,31 +1,64 @@
-<nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse min-vh-100">
-    <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
+<?php
+$path = $_SERVER['REQUEST_URI'];
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="dashboard.php">
-                    <i class="bi bi-speedometer2"></i> Dashboard
-                </a>
-            </li>
+function isActive($route)
+{
+    return strpos($_SERVER['REQUEST_URI'], $route) !== false ? 'active' : '';
+}
+?>
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">
-                    <i class="bi bi-truck"></i> Ganado
-                </a>
-            </li>
+<aside id="sidebar" class="app-sidebar">
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="#">
-                    <i class="bi bi-tree"></i> Potreros
-                </a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-danger" href="auth/logout.php">
-                    <i class="bi bi-box-arrow-right"></i> Salir
-                </a>
-            </li>
-
-        </ul>
+    <div class="sidebar-header">
+        🌱 <strong>Mi Finca</strong>
     </div>
-</nav>
+
+    <nav class="sidebar-menu">
+
+        <a class="sidebar-link <?= isActive('dashboard.php') ?>"
+            href="/mi_finca/dashboard.php">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+
+        <a class="sidebar-link <?= isActive('modules/ganado') ?>"
+            href="/mi_finca/modules/ganado/index.php">
+            <i class="bi bi-cow"></i> Ganado
+        </a>
+
+        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
+            href="/mi_finca/modules/potrero/index.php">
+            <i class="bi bi-tree"></i> Potreros
+        </a>
+        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
+            href="/mi_finca/modules/potrero/index.php">
+            <i class="bi bi-tree"></i> Producción
+        </a>
+        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
+            href="/mi_finca/modules/potrero/index.php">
+            <i class="bi bi-tree"></i> Vacunas / tratamientos
+        </a>
+        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
+            href="/mi_finca/modules/potrero/index.php">
+            <i class="bi bi-tree"></i> Reproducción
+        </a>
+        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
+            href="/mi_finca/modules/potrero/index.php">
+            <i class="bi bi-tree"></i> Movimientos
+        </a>
+        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
+            href="/mi_finca/modules/potrero/index.php">
+            <i class="bi bi-tree"></i> Reportes
+        </a>
+
+        <hr>
+
+        <a class="sidebar-link text-danger"
+            href="/mi_finca/auth/logout.php"
+            onclick="return confirm('¿Cerrar sesión?')">
+            <i class="bi bi-box-arrow-right"></i> Salir
+        </a>
+
+    </nav>
+
+</aside>
