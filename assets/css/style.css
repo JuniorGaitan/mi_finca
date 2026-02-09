@@ -65,4 +65,48 @@
     background: rgba(0, 0, 0, 0.4);
     z-index: 1030;
   }
+
+  .mapa-finca {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .potrero-box {
+    height: 120px;
+    border-radius: 10px;
+    color: #fff;
+    padding: 12px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease;
+  }
+
+  .potrero-box:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+
+  .potrero-disponible {
+    background-color: #198754;
+  }
+
+  .potrero-uso {
+    background-color: #ffc107;
+    color: #000;
+  }
+
+  .potrero-descanso {
+    background-color: #0d6efd;
+  }
+
+  .potrero-info {
+    font-size: 0.85rem;
+    font-weight: normal;
+  }
 }

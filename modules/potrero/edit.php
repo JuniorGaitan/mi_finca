@@ -6,7 +6,7 @@ require_once MODELS_PATH . 'Potrero.php';
 $id = $_GET['id'];
 $modelo = new Potrero($pdo);
 $p = $modelo->obtenerPorId($id);
-$terrenos = $modelo->listarTodos();
+$terrenos = $modelo->listarTerrenos();
 
 include ROOT_PATH . 'includes/header.php';
 ?>
@@ -21,7 +21,7 @@ include ROOT_PATH . 'includes/header.php';
             <div class="card-body">
                 <form action="../../app/controllers/PotreroController.php?action=editar" method="POST">
                     <input type="hidden" name="id_potrero" value="<?= $p['id_potrero'] ?>">
-                    
+
                     <div class="mb-3">
                         <label>Terreno</label>
                         <select name="id_terreno" class="form-select">
@@ -45,7 +45,11 @@ include ROOT_PATH . 'includes/header.php';
                         </div>
                         <div class="col-md-6">
                             <label>Capacidad</label>
-                            <input type="number" name="capacidad" class="form-control" value="<?= $p['capacidad_animales'] ?>" required>
+                            <input type="number"
+                                name="capacidad_animales"
+                                class="form-control"
+                                value="<?= $p['capacidad_animales'] ?>"
+                                required>
                         </div>
                     </div>
 

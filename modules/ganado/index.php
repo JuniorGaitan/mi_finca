@@ -30,6 +30,8 @@ include '../../includes/header.php';
                 <a href="create.php" class="btn btn-success">
                     <i class="bi bi-plus-circle"></i> Nuevo
                 </a>
+
+
             </div>
 
             <?php if (empty($ganado)): ?>
@@ -67,17 +69,26 @@ include '../../includes/header.php';
                                             <?= htmlspecialchars($g['estado']) ?>
                                         </span>
                                     </td>
-                                    <td class="text-center">
-                                        <a href="edit.php?id=<?= (int)$g['id_ganado'] ?>"
-                                            class="btn btn-sm btn-warning">
-                                            Editar
-                                        </a>
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-1 flex-wrap">
 
-                                        <a href="../../app/controllers/GanadoController.php?delete=<?= (int)$g['id_ganado'] ?>"
-                                            class="btn btn-sm btn-danger"
-                                            onclick="return confirm('¿Eliminar este ganado?')">
-                                            Eliminar
-                                        </a>
+
+                                            <a href="edit.php?id=<?= (int)$g['id_ganado'] ?>"
+                                                class=" btn btn-sm btn-outline-warning">✏️
+
+                                            </a>
+                                            <a href="arbol.php?id=<?= (int)$g['id_ganado'] ?>"
+                                                class="btn btn-sm btn-outline-info">🌳
+
+                                            </a>
+
+                                            <a href="../../app/controllers/GanadoController.php?delete=<?= (int)$g['id_ganado'] ?>"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('¿Eliminar este ganado?')">
+                                                🗑
+                                            </a>
+                                        </div>
+
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

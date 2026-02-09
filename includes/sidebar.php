@@ -30,25 +30,23 @@ function isActive($route)
             href="/mi_finca/modules/potrero/index.php">
             <i class="bi bi-tree"></i> Potreros
         </a>
-        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
-            href="/mi_finca/modules/potrero/index.php">
-            <i class="bi bi-tree"></i> Producción
+        <a class="sidebar-link <?= isActive('') ?>"
+            href="#">
+            <i class="bi bi-tree"></i> Producción/Pendiente
         </a>
         <a class="sidebar-link <?= isActive('modules/potrero') ?>"
-            href="/mi_finca/modules/potrero/index.php">
+            href="/mi_finca/modules/vacunas/index.php">
             <i class="bi bi-tree"></i> Vacunas / tratamientos
         </a>
-        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
-            href="/mi_finca/modules/potrero/index.php">
-            <i class="bi bi-tree"></i> Reproducción
+        
+        <a class="sidebar-link <?= isActive('modules/ubicacion') ?>"
+            href="/mi_finca/modules/ubicacion/index.php">
+            <i class="bi bi-tree"></i> Movimientos Ganado
         </a>
-        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
+        
+        <a class="sidebar-link <?= isActive('') ?>"
             href="/mi_finca/modules/potrero/index.php">
-            <i class="bi bi-tree"></i> Movimientos
-        </a>
-        <a class="sidebar-link <?= isActive('modules/potrero') ?>"
-            href="/mi_finca/modules/potrero/index.php">
-            <i class="bi bi-tree"></i> Reportes
+            <i class="bi bi-tree"></i> Reportes/pendiente
         </a>
 
         <hr>

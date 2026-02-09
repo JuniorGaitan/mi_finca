@@ -17,6 +17,7 @@ include 'includes/header.php';
             <i class="bi bi-list"></i>
         </button>
 
+
     </div>
 
     <!-- HEADER -->
@@ -27,10 +28,14 @@ include 'includes/header.php';
         </div>
 
         <div class="d-none d-md-flex align-items-center gap-2">
+            <a href="seleccionar.php" class="btn btn-outline-secondary">
+                🔄 Cambiar terreno
+            </a>
             <span class="badge bg-success px-3 py-2">
                 <i class="bi bi-person-circle me-1"></i>
                 <?= htmlspecialchars($_SESSION['usuario']['nombre'] ?? 'Usuario') ?>
             </span>
+
         </div>
     </div>
 
@@ -77,8 +82,56 @@ include 'includes/header.php';
                     </div>
                 </div>
             </a>
+            <a href="modules/potrero/cardPotrero.php" class="btn btn-success">
+                🗺️ Ver croquis de potreros
+            </a>
         </div>
 
+        <!-- movimientos -->
+        <div class="col-12 col-md-6 col-lg-3">
+            <a href="/mi_finca/modules/ubicacion/index.php "
+                class=" text-decoration-none">
+
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-box bg-primary text-white">
+                                <i class="bi bi-bar-chart"></i>
+                            </div>
+                            <h5 class="fw-bold mb-0 ms-3">Movimientos</h5>
+                        </div>
+                        <p class="text-muted small mb-2">
+                            en desarrollo
+                        </p>
+                        <span class="badge bg-secondary">En desarrollo</span>
+
+
+                    </div>
+                </div>
+        </div>
+
+        <!-- movimientos -->
+        <div class="col-12 col-md-6 col-lg-3">
+            <a href="/mi_finca/modules/vacunas/index.php "
+                class=" text-decoration-none">
+
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-box bg-primary text-white">
+                                <i class="bi bi-bar-chart"></i>
+                            </div>
+                            <h5 class="fw-bold mb-0 ms-3">Vacunas</h5>
+                        </div>
+                        <p class="text-muted small mb-2">
+                            en desarrollo
+                        </p>
+                        <span class="badge bg-secondary">En desarrollo</span>
+
+
+                    </div>
+                </div>
+        </div>
         <!-- REPORTES -->
         <div class="col-12 col-md-6 col-lg-3">
             <div class="card border-0 shadow-sm h-100">
@@ -93,6 +146,11 @@ include 'includes/header.php';
                         Próximamente
                     </p>
                     <span class="badge bg-secondary">En desarrollo</span>
+                    <a href="/mi_finca/modules/ubicacion/index.php">
+                        Movimiento de Ganado
+                    </a>
+
+
                 </div>
             </div>
         </div>

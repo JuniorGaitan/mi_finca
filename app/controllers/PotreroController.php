@@ -1,97 +1,117 @@
 <?php
-require_once __DIR__ . '/../../config/database.php';
-require_once __DIR__ . '/../models/Potrero.php';
+session_start();
 
-class PotreroController
-{
-    private $modelo;
+require_once '../../config/database.php';
+require_once '../models/Ubicacion.php';
+require_once '../models/Potrero.php';
 
-    public function __construct($pdo)
-    {
-        $this->modelo = new Potrero($pdo);
-    }
-
-    public function crear()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id_terreno = $_POST['id_terreno'];
-            $nombre = $_POST['nombre'];
-            $area = $_POST['area'];
-            $capacidad = $_POST['capacidad'];
-
-            if ($this->modelo->guardar($id_terreno, $nombre, $area, $capacidad)) {
-                header("Location: ../../modules/potrero/index.php?success=1");
-            } else {
-                header("Location: ../../modules/potrero/index.php?error=1");
-            }
-            exit;
-        }
-    }
-
-    public function editar()
-{
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $id = $_POST['id_potrero'];
-        
-        // Empaquetamos los datos como los espera el modelo
-        $data = [
-            'nombre' => $_POST['nombre'],
-            'area' => $_POST['area'],
-            'capacidad' => $_POST['capacidad'],
-            'estado' => $_POST['estado'],
-            'dias_descanso' => 30 // Valor por defecto o puedes añadir un input para esto
-        ];
-
-        if ($this->modelo->actualizar($id, $data)) {
-            header("Location: ../../modules/potrero/index.php?success=editado");
-        } else {
-            header("Location: ../../modules/potrero/index.php?error=1");
-        }
-        exit;
-    }
-
-    }
-
-    public function eliminar()
-    {
-        $id = $_GET['id'] ?? null;
-        if ($id && $this->modelo->eliminar($id)) {
-            header("Location: ../../modules/potrero/index.php?success=eliminado");
-        }
-        exit;
-    }
-
-    public function obtenerTerrenosPorFinca()
-    {
-        // Limpiar basura del buffer
-        if (ob_get_level()) ob_end_clean();
-
-        header('Content-Type: application/json; charset=utf-8');
-
-        $id_finca = isset($_GET['id_finca']) ? (int)$_GET['id_finca'] : 0;
-
-        // ESTA ES LA ÚNICA LÍNEA QUE NECESITAS. 
-        // No definas la función, solo úsala:
-        $datos = $this->modelo->listarTerrenosPorFinca($id_finca);
-        echo json_encode($datos ? $datos : []);
-
-        exit;
-    }
+// 🔐 Protección básica
+if (!isset($_SESSION['usuario'])) {
+    header('Location: ../../index.php');
+    exit;
 }
 
-// --- INICIALIZACIÓN ---
-$controller = new PotreroController($pdo);
+$ubicacionModel = new Ubicacion($pdo);
+$potreroModel   = new Potrero($pdo);
 
-if (isset($_GET['action'])) {
-    $action = $_GET['action'];
 
-    if ($action == 'crear') {
-        $controller->crear();
-    } elseif ($action == 'editar') {
-        $controller->editar();
-    } elseif ($action == 'eliminar') {
-        $controller->eliminar();
-    } elseif ($action == 'terrenosPorFinca') {
-        $controller->obtenerTerrenosPorFinca();
+require_once '../../config/database.php';
+require_once '../models/Potrero.php';
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// ✅ ESTA ES LA VARIABLE CORRECTA
+$potreroModel = new Potrero($pdo);
+
+/*
+|--------------------------------------------------------------------------
+| AJAX: Terrenos por finca
+|--------------------------------------------------------------------------
+*/
+if (isset($_GET['action']) && $_GET['action'] === 'terrenosPorFinca') {
+
+    $id_finca = (int) $_GET['id_finca'];
+
+    // ✅ USA LA VARIABLE CORRECTA
+    $terrenos = $potreroModel->listarTerrenosPorFinca($id_finca);
+
+    header('Content-Type: application/json');
+    echo json_encode($terrenos);
+    exit;
+}
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| CREAR POTRERO
+|--------------------------------------------------------------------------
+*/
+if (isset($_GET['action']) && $_GET['action'] === 'crear' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (empty($_POST['id_terreno']) || empty($_POST['nombre'])) {
+        header('Location: ../../modules/potrero/create.php?error=1');
+        exit;
     }
+
+    $data = [
+        'id_terreno'        => $_POST['id_terreno'],
+        'nombre'            => $_POST['nombre'],
+        'area'              => $_POST['area'],
+        'capacidad_animales' => $_POST['capacidad_animales'],
+        'estado'            => 'disponible',
+        'fecha_ultimo_uso'  => null,
+        'dias_descanso'     => null
+    ];
+
+    $potreroModel->crear($data);
+
+    header('Location: ../../modules/potrero/index.php?success=1');
+    exit;
+}
+/*
+|--------------------------------------------------------------------------
+| EDITAR POTRERO
+|--------------------------------------------------------------------------
+*/
+if (isset($_GET['action']) && $_GET['action'] === 'editar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $id = (int) $_POST['id_potrero'];
+
+    $potreroActual = $potreroModel->obtenerPorId($id);
+
+    // 🔒 BLOQUEO
+    if ($potreroActual['estado'] === 'en uso') {
+        header('Location: ../../modules/potrero/index.php?bloqueado=1');
+        exit;
+    }
+
+    $data = [
+        'id_terreno'         => $_POST['id_terreno'],
+        'nombre'             => $_POST['nombre'],
+        'area'               => $_POST['area'],
+        'capacidad_animales' => $_POST['capacidad_animales'],
+        'estado'             => $_POST['estado']
+    ];
+
+    $potreroModel->actualizar($id, $data);
+
+    header('Location: ../../modules/potrero/index.php?updated=1');
+    exit;
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| ELIMINAR (si lo usas desde listado)
+|--------------------------------------------------------------------------
+*/
+if (isset($_GET['delete'])) {
+    $ubicacionModel->eliminar((int)$_GET['delete']);
+    header('Location: ../../modules/ubicacion/index.php');
+    exit;
 }

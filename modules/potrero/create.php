@@ -73,7 +73,10 @@ include ROOT_PATH . 'includes/header.php';
 
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Capacidad (Animales)</label>
-                                    <input type="number" name="capacidad" class="form-control border-2" placeholder="Ej: 20" required>
+                                    <input type="number" name="capacidad_animales"
+                                        class="form-control border-2"
+                                        placeholder="Ej: 20" required>
+
                                 </div>
                             </div>
 
